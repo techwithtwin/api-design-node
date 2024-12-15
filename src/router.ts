@@ -2,6 +2,20 @@ import { Router } from "express";
 import { body, oneOf, validationResult } from "express-validator";
 import { handleInputErrors } from "./modules/middleware";
 import { UPDATE_STATUS } from "@prisma/client";
+import {
+  createProduct,
+  deleteProduct,
+  getOneProduct,
+  getProducts,
+  updateProduct,
+} from "./handlers/product";
+import {
+  createUpdate,
+  deleteUpdate,
+  getOneUpdate,
+  getUpdates,
+  updateUpdate,
+} from "./handlers/update";
 
 const router = Router();
 
@@ -9,24 +23,26 @@ const router = Router();
  * Product
  */
 
-router.get("/product", (req, res) => {
-  res.json({ message: "Hello" });
-});
-router.get("/product/:id", () => {});
+router.get("/product", getProducts);
+router.get("/product/:id", getOneProduct);
 router.put(
   "/product/:id",
   [body("name").isString(), handleInputErrors],
-  (req, res) => {}
+  updateProduct
 );
-router.post("/product", [body("name").isString(), handleInputErrors], () => {});
-router.delete("/product/:id", () => {});
+router.post(
+  "/product",
+  [body("name").isString(), handleInputErrors],
+  createProduct
+);
+router.delete("/product/:id", deleteProduct);
 
 /**
  * Update
  */
 
-router.get("/update", () => {});
-router.get("/update/:id", () => {});
+router.get("/update", getUpdates);
+router.get("/update/:id", getOneUpdate);
 router.put(
   "/update/:id",
   [
@@ -42,18 +58,18 @@ router.put(
     body("version").optional(),
     handleInputErrors,
   ],
-  (req, res) => {
-    res.json({
-      message: "Great to see yah!",
-    });
-  }
+  updateUpdate
 );
 router.post(
   "/update",
-  [body("title").exists().isString(), body("body").exists().isString()],
-  () => {}
+  [
+    body("title").exists().isString(),
+    body("body").exists().isString(),
+    body("productId").exists().isString(),
+  ],
+  createUpdate
 );
-router.delete("/update/:id", () => {});
+router.delete("/update/:id", deleteUpdate);
 
 /**
  * Update point
