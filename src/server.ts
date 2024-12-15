@@ -19,9 +19,9 @@ app.use(express.urlencoded({ extended: true }));
 // });
 
 app.get("/", (req, res, next) => {
-  setTimeout(() => {
-    next(new Error("OOPSY"));
-  }, 2000);
+  res.json({
+    message: "Hello",
+  });
 });
 
 app.use("/api", [protect], router);
