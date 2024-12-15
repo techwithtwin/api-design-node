@@ -96,4 +96,8 @@ router.post(
 );
 router.delete("/update-point/:id", () => {});
 
+router.use((err, req, res, next) => {
+  res.status(500).json({ message: "Hello world" });
+});
+
 export default router;

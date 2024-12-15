@@ -12,6 +12,7 @@ app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Custom Middleware
 // app.use((req, res, next) => {
 //   req["shhh_secret"] = "doggy";
 //   next();
