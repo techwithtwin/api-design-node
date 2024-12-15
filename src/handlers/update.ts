@@ -74,7 +74,7 @@ export async function createUpdate(req: Request, res: Response) {
 
 // update an update
 export async function updateUpdate(req: Request, res: Response) {
-  const updatedUpdate = await prisma.update.findUnique({
+  const updateToUpdate = await prisma.update.findUnique({
     where: {
       id: req.params["id"],
       product: {
@@ -83,7 +83,20 @@ export async function updateUpdate(req: Request, res: Response) {
     },
   });
 
-  res.json({ data: updatedUpdate });
+  if (updateToUpdate) {
+    const updatedUpdate = await prisma.update.update({
+      where: {
+        id: updateToUpdate.id,
+      },
+      data: req.body,
+    });
+
+    res.json({
+      updatedUpdate,
+    });
+  }
+
+  res.json({ error: "Invalid Data" });
 }
 
 // delete an update
